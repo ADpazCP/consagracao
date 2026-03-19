@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro ADPAZ - Sistema de Registro</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        body { 
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); 
+            min-height: 100vh; 
+            padding: 40px 20px; 
+            font-family: 'Segoe UI', sans-serif; 
+        }
+        .form-container { 
+            max-width: 900px; 
+            margin: auto; 
+            background: white; 
+            padding: 40px; 
+            border-radius: 20px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
+        }
+        .header-box { 
+            border-bottom: 3px solid #3273dc; 
+            margin-bottom: 30px; 
+            padding-bottom: 20px; 
+            text-align: center;
+        }
+        .label { 
+            font-size: 0.85rem; 
+            color: #4a4a4a; 
+            font-weight: 700; 
+            margin-bottom: 0.5em; 
+        }
+        .input, .select select { 
+            border-radius: 8px !important; 
+            border: 1.5px solid #eee; 
+            transition: all 0.3s;
+        }
+        .input:focus, .select select:focus { border-color: #3273dc; box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.1); }
+        .force-uppercase { text-transform: uppercase; }
+        .divider { height: 1px; background-color: #ebedef; margin: 25px 0; width: 100%; }
+        .logo-adpaz { width: 124px; height: 94px; object-fit: contain; }
+        .btn-enviar { height: 55px; font-weight: bold; font-size: 1.1rem; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <div class="header-box">
+        <img src="adpaz.png" alt="Logo ADPAZ" class="logo-adpaz mt-2">
+        <h1 class="title is-4 mt-3 force-uppercase">Cadastro de Indicação à Consagração</h2>
+        <p class="subtitle is-6 has-text-grey">Assembleia de Deus - Ministério Internacional Paz & Vida</p>
+    </div>
+
+    <form id="cadastroForm">
+        <input type="hidden" name="registro" id="campo_registro">
+        <input type="hidden" name="nacionalidade2" value="">
+
+        <div class="columns is-multiline">
+            <div class="column is-8">
+                <label class="label">Candidato (Nome completo)</label>
+                <div class="control has-icons-left">
+                    <input class="input force-uppercase" type="text" name="candidato" placeholder="Digite o nome completo" required>
+                    <span class="icon is-small is-left"><i class="fas fa-user"></i></span>
+                </div>
+            </div>
+            <div class="column is-4">
+                <label class="label">Sexo</label>
+                <div class="select is-fullwidth">
+                    <select name="sexo" required>
+                        <option value="">Selecione...</option>
+                        <option value="MASCULINO">Masculino</option>
+                        <option value="FEMININO">Feminino</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="column is-4">
+                <label class="label">Data de nascimento</label>
+                <input class="input" type="date" name="nascimento" id="data_nasc" required>
+            </div>
+            <div class="column is-4">
+                <label class="label">Nacionalidade</label>
+                <input class="input force-uppercase" type="text" name="nacionalidade" placeholder="Ex: Brasileira">
+            </div>
+            <div class="column is-4">
+                <label class="label">Uf (Nascimento)</label>
+                <input class="input force-uppercase" type="text" name="uf" id="uf_nasc" maxlength="2" placeholder="Ex: RN">
+            </div>
+
+            <div class="column is-4">
+                <label class="label">Estado civil</label>
+                <div class="select is-fullwidth">
+                    <select name="estado_civil">
+                        <option value="">Selecione...</option>
+                        <option value="SOLTEIRO(A)">Solteiro(a)</option>
+                        <option value="CASADO(A)">Casado(a)</option>
+                        <option value="DIVORCIADO(A)">Divorciado(a)</option>
+                        <option value="UNIÃO ESTÁVEL">União Estável</option>
+                    </select>
+                </div>
+            </div>
+            <div class="column is-8">
+                <label class="label">Nome do cônjuge</label>
+                <input class="input force-uppercase" type="text" name="conjuge" placeholder="Se for casado(a)">
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="column is-6">
+                <label class="label">Endereço (Rua, nº)</label>
+                <input class="input force-uppercase" type="text" name="endereco" placeholder="Rua e número">
+            </div>
+            <div class="column is-6">
+                <label class="label">Complemento</label>
+                <input class="input force-uppercase" type="text" name="complemento" placeholder="Apto, Casa, Bloco...">
+            </div>
+            <div class="column is-4">
+                <label class="label">Bairro</label>
+                <input class="input force-uppercase" type="text" name="bairro" placeholder="Bairro">
+            </div>
+            <div class="column is-3">
+                <label class="label">Cep</label>
+                <input class="input" type="text" name="cep" id="cep" maxlength="9" placeholder="00000-000">
+            </div>
+            <div class="column is-3">
+                <label class="label">Cidade</label>
+                <input class="input force-uppercase" type="text" name="cidade" placeholder="Cidade">
+            </div>
+            <div class="column is-2">
+                <label class="label">Estado (Uf)</label>
+                <input class="input force-uppercase" type="text" name="estado" id="uf_atual" maxlength="2" placeholder="Ex: RN">
+            </div>
+
+            <div class="column is-12">
+                <label class="label">Telefone / Whatsapp</label>
+                <div class="control has-icons-left">
+                    <input class="input" type="text" name="telefone" id="tel" placeholder="(00) 00000-0000" required>
+                    <span class="icon is-small is-left"><i class="fab fa-whatsapp"></i></span>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="column is-6">
+                <label class="label">Congregação</label>
+                <div class="select is-fullwidth">
+                    <select name="congregacao" required>
+                        <option value="">Selecione...</option>
+                        <option value="ADPAZ - AREZ">ADpaz - Arez</option>
+                        <option value="ADPAZ - BAIA FORMOSA">ADpaz - Baia Formosa</option>
+                        <option value="ADPAZ - CAMPO DE SANTANA">ADpaz - Campo de Santana</option>
+                        <option value="ADPAZ - CAMPO REDONDO">ADpaz - Campo Redondo</option>
+                        <option value="ADPAZ - CANDELARIA">ADpaz - Candelária</option>
+                        <option value="ADPAZ - CANGUARETAMA">ADpaz - Canguaretama</option>
+                        <option value="ADPAZ - CIDADE PRAIA">ADpaz - Cidade Praia</option>
+                        <option value="ADPAZ - ESPIRITO SANTO">ADpaz - Espírito Santo</option>
+                        <option value="ADPAZ - GOIANINHA">ADpaz - Goianinha</option>
+                        <option value="ADPAZ - MAMANGUAPE">ADpaz - Mamanguape</option>
+                        <option value="ADPAZ - NISIA FLORESTA">ADpaz - Nísia Floresta</option>
+                        <option value="ADPAZ - NOVA FLORESTA">ADpaz - Nova Floresta</option>
+                        <option value="ADPAZ - PARQUE DOS COQUEIROS">ADpaz - Parque dos Coqueiros</option>
+                        <option value="ADPAZ - PLANALTO">ADpaz - Planalto</option>
+                        <option value="ADPAZ - SANTA CRUZ">ADpaz - Santa Cruz</option>
+                        <option value="ADPAZ - SAO JOSE MIPIBU">ADpaz - São José Mipibu</option>
+                        <option value="ADPAZ - SAO MIGUEL DO GOSTOSO">ADpaz - São Miguel do Gostoso</option>
+                        <option value="ADPAZ - SEDE">ADpaz - Sede</option>
+                        <option value="ADPAZ - SEDE CIDADE PRAIA">ADpaz - Sede - Cidade Praia</option>
+                        <option value="ADPAZ - ZONA SUL">ADpaz - Zona Sul</option>    
+                    </select>
+                </div>
+            </div>
+            <div class="column is-3">
+                <label class="label">Cargo</label>
+                <div class="select is-fullwidth">
+                    <select name="consagracao">
+                        <option value="">Selecione...</option>
+                        <option value="DIÁCONO/DIACONISA">Diácono/Diaconisa</option>
+                        <option value="PASTOR">Pastor</option>
+                        <option value="PRESBÍTERO">Presbítero</option>
+                    </select>
+                </div>
+            </div>
+            <div class="column is-3">
+                <label class="label">Critério</label>
+                <div class="select is-fullwidth">
+                    <select name="separacao">
+                        <option value="">Selecione...</option>
+                        <option value="CONSAGRAÇÃO">Consagração</option>
+                        <option value="RECONHECIMENTO">Reconhecimento</option>
+                    </select>
+                </div>
+            </div>
+            <div class="column is-12">
+                <label class="label">Dirigente da congregação</label>
+                <input class="input force-uppercase" type="text" name="dircongregacao" placeholder="Nome do dirigente">
+            </div>
+        </div>
+
+        <div class="mt-6">
+            <button type="submit" id="btnSalvar" class="button is-link is-fullwidth btn-enviar">
+                <span class="icon"><i class="fas fa-paper-plane"></i></span>
+                <span>FINALIZAR E ENVIAR CADASTRO</span>
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx9BkrkkpysXbKKWXS6wR_JknEdeYvIxO_gtAkOMebddMpDtzLPmTBdPqom7SnmahLE/exec";
+
+    function dataParaAAMMDD(valorData) {
+        if(!valorData) return "000000";
+        const partes = valorData.split('-'); 
+        return partes[0].substring(2) + partes[1] + partes[2];
+    }
+
+    document.getElementById('tel').addEventListener('input', e => {
+        let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+        e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+    });
+
+    document.getElementById('cep').addEventListener('input', e => {
+        let x = e.target.value.replace(/\D/g, '').match(/(\d{0,5})(\d{0,3})/);
+        e.target.value = !x[2] ? x[1] : x[1] + '-' + x[2];
+    });
+
+    document.getElementById('cadastroForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const btn = document.getElementById('btnSalvar');
+        btn.classList.add('is-loading');
+        btn.disabled = true;
+
+        const hoje = new Date();
+        const strHoje = hoje.getFullYear().toString().substring(2) + 
+                         ("0" + (hoje.getMonth() + 1)).slice(-2) + 
+                         ("0" + hoje.getDate()).slice(-2);
+        const strNasc = dataParaAAMMDD(document.getElementById('data_nasc').value);
+        const registroFinal = strHoje + strNasc;
+        
+        document.getElementById('campo_registro').value = registroFinal;
+
+        const formData = new FormData(this);
+        const params = new URLSearchParams();
+        for (const pair of formData.entries()) {
+            params.append(pair[0], pair[1].toString().toUpperCase());
+        }
+
+        fetch(`${SCRIPT_URL}?${params.toString()}`, { method: 'POST', mode: 'no-cors' })
+        .then(() => {
+            Swal.fire({
+                title: 'CADASTRO ENVIADO!',
+                html: `Registro gerado: <b>${registroFinal}</b>`,
+                icon: 'success',
+                confirmButtonColor: '#3273dc'
+            });
+            this.reset();
+        })
+        .finally(() => {
+            btn.classList.remove('is-loading');
+            btn.disabled = false;
+        });
+    });
+</script>
+
+</body>
+</html>
