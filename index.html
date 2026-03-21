@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro ADPAZ - Sistema de Registro</title>
+    <title>ADPAZ - Cadastro consagração</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -45,6 +45,9 @@
         .divider { height: 1px; background-color: #ebedef; margin: 25px 0; width: 100%; }
         .logo-adpaz { width: 124px; height: 94px; object-fit: contain; }
         .btn-enviar { height: 55px; font-weight: bold; font-size: 1.1rem; border-radius: 10px; }
+        
+        /* Estilo para esconder o campo cônjuge inicialmente */
+        #coluna-conjuge { display: none; }
     </style>
 </head>
 <body>
@@ -52,7 +55,7 @@
 <div class="form-container">
     <div class="header-box">
         <img src="adpaz.png" alt="Logo ADPAZ" class="logo-adpaz mt-2">
-        <h1 class="title is-4 mt-3 force-uppercase">Cadastro de Indicação à Consagração</h2>
+        <h1 class="title is-4 mt-3 force-uppercase">Cadastro de Indicação à Consagração</h1>
         <p class="subtitle is-6 has-text-grey">Assembleia de Deus - Ministério Internacional Paz & Vida</p>
     </div>
 
@@ -81,8 +84,9 @@
 
             <div class="column is-4">
                 <label class="label">Data de nascimento</label>
-                <input class="input" type="date" name="nascimento" id="data_nasc" required>
+                <input class="input" type="text" inputmode="numeric" name="nascimento" id="data_nasc" maxlength="10" placeholder="DD/MM/AAAA" required>
             </div>
+
             <div class="column is-4">
                 <label class="label">Nacionalidade</label>
                 <input class="input force-uppercase" type="text" name="nacionalidade" placeholder="Ex: Brasileira">
@@ -95,18 +99,20 @@
             <div class="column is-4">
                 <label class="label">Estado civil</label>
                 <div class="select is-fullwidth">
-                    <select name="estado_civil">
+                    <select name="estado_civil" id="estado_civil">
                         <option value="">Selecione...</option>
                         <option value="SOLTEIRO(A)">Solteiro(a)</option>
                         <option value="CASADO(A)">Casado(a)</option>
                         <option value="DIVORCIADO(A)">Divorciado(a)</option>
                         <option value="UNIÃO ESTÁVEL">União Estável</option>
+                        <option value="VIÚVO">Viúvo(a)</option>
                     </select>
                 </div>
             </div>
-            <div class="column is-8">
+            
+            <div class="column is-8" id="coluna-conjuge">
                 <label class="label">Nome do cônjuge</label>
-                <input class="input force-uppercase" type="text" name="conjuge" placeholder="Se for casado(a)">
+                <input class="input force-uppercase" type="text" name="conjuge" id="input_conjuge" placeholder="Nome completo do cônjuge">
             </div>
 
             <div class="divider"></div>
@@ -151,8 +157,9 @@
                 <div class="select is-fullwidth">
                     <select name="congregacao" required>
                         <option value="">Selecione...</option>
+                        <option value="ADPAZ - ALDEIAS ESTIVAS">ADpaz - Aldeias Estivas</option>
                         <option value="ADPAZ - AREZ">ADpaz - Arez</option>
-                        <option value="ADPAZ - BAIA FORMOSA">ADpaz - Baia Formosa</option>
+                        <option value="ADPAZ - BAHIA FORMOSA">ADpaz - Bahia Formosa</option>
                         <option value="ADPAZ - CAMPO DE SANTANA">ADpaz - Campo de Santana</option>
                         <option value="ADPAZ - CAMPO REDONDO">ADpaz - Campo Redondo</option>
                         <option value="ADPAZ - CANDELARIA">ADpaz - Candelária</option>
@@ -162,14 +169,16 @@
                         <option value="ADPAZ - GOIANINHA">ADpaz - Goianinha</option>
                         <option value="ADPAZ - MAMANGUAPE">ADpaz - Mamanguape</option>
                         <option value="ADPAZ - NISIA FLORESTA">ADpaz - Nísia Floresta</option>
+                        <option value="ADPAZ - NOVA ESPERANCA">ADpaz - Nova Esperança</option>
                         <option value="ADPAZ - NOVA FLORESTA">ADpaz - Nova Floresta</option>
                         <option value="ADPAZ - PARQUE DOS COQUEIROS">ADpaz - Parque dos Coqueiros</option>
                         <option value="ADPAZ - PLANALTO">ADpaz - Planalto</option>
                         <option value="ADPAZ - SANTA CRUZ">ADpaz - Santa Cruz</option>
                         <option value="ADPAZ - SAO JOSE MIPIBU">ADpaz - São José Mipibu</option>
-                        <option value="ADPAZ - SAO MIGUEL DO GOSTOSO">ADpaz - São Miguel do Gostoso</option>
+                        <option value="ADPAZ - SAO JOSE DE TOURO">ADpaz - São José de Touro</option>
                         <option value="ADPAZ - SEDE">ADpaz - Sede</option>
-                        <option value="ADPAZ - ZONA SUL">ADpaz - Zona Sul</option>    
+                        <option value="ADPAZ - SEDE CIDADE PRAIA">ADpaz - Sede - Cidade Praia</option>
+                        <option value="ADPAZ - ZONA SUL">ADpaz - Zona Sul</option>  
                     </select>
                 </div>
             </div>
@@ -212,11 +221,44 @@
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx9BkrkkpysXbKKWXS6wR_JknEdeYvIxO_gtAkOMebddMpDtzLPmTBdPqom7SnmahLE/exec";
 
-    function dataParaAAMMDD(valorData) {
-        if(!valorData) return "000000";
-        const partes = valorData.split('-'); 
-        return partes[0].substring(2) + partes[1] + partes[2];
+    // LÓGICA PARA MOSTRAR/ESCONDER CÔNJUGE
+    document.getElementById('estado_civil').addEventListener('change', function() {
+        const colunaConjuge = document.getElementById('coluna-conjuge');
+        const inputConjuge = document.getElementById('input_conjuge');
+        
+        if (this.value === 'CASADO(A)' || this.value === 'UNIÃO ESTÁVEL') {
+            colunaConjuge.style.display = 'block';
+            inputConjuge.required = true; // Torna obrigatório se for casado
+        } else {
+            colunaConjuge.style.display = 'none';
+            inputConjuge.value = ''; // Limpa o campo se esconder
+            inputConjuge.required = false;
+        }
+    });
+
+    function validarData(valor) {
+        if (!valor || valor.length < 10) return false;
+        const partes = valor.split('/');
+        const dia = parseInt(partes[0], 10);
+        const mes = parseInt(partes[1], 10);
+        const ano = parseInt(partes[2], 10);
+        if (mes < 1 || mes > 12) return "Mês inválido! Use entre 01 e 12.";
+        if (ano < 1900 || ano > 2050) return "Ano inválido! Use entre 1900 e 2050.";
+        const diasNoMes = new Date(ano, mes, 0).getDate();
+        if (dia < 1 || dia > diasNoMes) return `Dia inválido para o mês informado (Máx: ${diasNoMes}).`;
+        return true;
     }
+
+    function dataParaAAMMDD(valorData) {
+        if(!valorData || valorData.length < 10) return "000000";
+        const partes = valorData.split('/');
+        return partes[2].substring(2) + partes[1] + partes[0];
+    }
+
+    document.getElementById('data_nasc').addEventListener('input', e => {
+        let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,2})(\d{0,4})/);
+        e.target.value = !x[2] ? x[1] : x[1] + '/' + x[2] + (x[3] ? '/' + x[3] : '');
+    });
 
     document.getElementById('tel').addEventListener('input', e => {
         let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
@@ -230,17 +272,22 @@
 
     document.getElementById('cadastroForm').addEventListener('submit', function(e) {
         e.preventDefault();
+        const campoData = document.getElementById('data_nasc').value;
+        const resultadoValidacao = validarData(campoData);
+
+        if (resultadoValidacao !== true) {
+            Swal.fire({ title: 'DATA INVÁLIDA', text: resultadoValidacao, icon: 'error', confirmButtonColor: '#d33' });
+            return;
+        }
+
         const btn = document.getElementById('btnSalvar');
         btn.classList.add('is-loading');
         btn.disabled = true;
 
         const hoje = new Date();
-        const strHoje = hoje.getFullYear().toString().substring(2) + 
-                         ("0" + (hoje.getMonth() + 1)).slice(-2) + 
-                         ("0" + hoje.getDate()).slice(-2);
-        const strNasc = dataParaAAMMDD(document.getElementById('data_nasc').value);
+        const strHoje = hoje.getFullYear().toString().substring(2) + ("0" + (hoje.getMonth() + 1)).slice(-2) + ("0" + hoje.getDate()).slice(-2);
+        const strNasc = dataParaAAMMDD(campoData);
         const registroFinal = strHoje + strNasc;
-        
         document.getElementById('campo_registro').value = registroFinal;
 
         const formData = new FormData(this);
@@ -251,13 +298,9 @@
 
         fetch(`${SCRIPT_URL}?${params.toString()}`, { method: 'POST', mode: 'no-cors' })
         .then(() => {
-            Swal.fire({
-                title: 'CADASTRO ENVIADO!',
-                html: `Registro gerado: <b>${registroFinal}</b>`,
-                icon: 'success',
-                confirmButtonColor: '#3273dc'
-            });
+            Swal.fire({ title: 'CADASTRO ENVIADO!', html: `Registro gerado: <b>${registroFinal}</b>`, icon: 'success', confirmButtonColor: '#3273dc' });
             this.reset();
+            document.getElementById('coluna-conjuge').style.display = 'none'; // Esconde o campo após reset
         })
         .finally(() => {
             btn.classList.remove('is-loading');
