@@ -1,0 +1,21 @@
+{
+  "short_name": "Consagração",
+  "name": "ADPAZ - Cadastro Consagração",
+  "icons": [
+    {
+      "src": "logo-icon.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo-icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "./index.html",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "scope": "./",
+  "theme_color": "#3273dc"
+}
