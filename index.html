@@ -20,14 +20,14 @@
         body { 
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); 
             min-height: 100vh; 
-            padding: 40px 20px; 
+            padding: 20px; 
             font-family: 'Segoe UI', sans-serif; 
         }
         .form-container { 
             max-width: 900px; 
             margin: auto; 
             background: white; 
-            padding: 40px; 
+            padding: 30px; 
             border-radius: 20px; 
             box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
         }
@@ -78,7 +78,123 @@
                     <span class="icon is-small is-left"><i class="fas fa-user"></i></span>
                 </div>
             </div>
+            <div class="column is-4">
+                <label class="label">Sexo</label>
+                <div class="select is-fullwidth">
+                    <select name="sexo" required>
+                        <option value="">Selecione...</option>
+                        <option value="MASCULINO">Masculino</option>
+                        <option value="FEMININO">Feminino</option>
+                    </select>
+                </div>
             </div>
+
+            <div class="column is-4">
+                <label class="label">Data de nascimento</label>
+                <input class="input" type="text" inputmode="numeric" name="nascimento" id="data_nasc" maxlength="10" placeholder="DD/MM/AAAA" required>
+            </div>
+
+            <div class="column is-4">
+                <label class="label">Nacionalidade</label>
+                <input class="input force-uppercase" type="text" name="nacionalidade" placeholder="Ex: Brasileira">
+            </div>
+            <div class="column is-4">
+                <label class="label">Estado em que Nasceu</label>
+                <input class="input force-uppercase" type="text" name="uf" id="uf_nasc" maxlength="2" placeholder="Ex: RN">
+            </div>
+
+            <div class="column is-4">
+                <label class="label">Estado civil</label>
+                <div class="select is-fullwidth">
+                    <select name="estado_civil" id="estado_civil">
+                        <option value="">Selecione...</option>
+                        <option value="SOLTEIRO(A)">Solteiro(a)</option>
+                        <option value="CASADO(A)">Casado(a)</option>
+                        <option value="DIVORCIADO(A)">Divorciado(a)</option>
+                        <option value="UNIÃO ESTÁVEL">União Estável</option>
+                        <option value="VIÚVO">Viúvo(a)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="column is-8" id="coluna-conjuge">
+                <label class="label">Nome do cônjuge</label>
+                <input class="input force-uppercase" type="text" name="conjuge" id="input_conjuge" placeholder="Nome completo do cônjuge">
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="column is-6">
+                <label class="label">Endereço (Rua, nº)</label>
+                <input class="input force-uppercase" type="text" name="endereco" placeholder="Rua e número">
+            </div>
+            <div class="column is-6">
+                <label class="label">Complemento</label>
+                <input class="input force-uppercase" type="text" name="complemento" placeholder="Apto, Casa, Bloco...">
+            </div>
+            <div class="column is-4">
+                <label class="label">Bairro</label>
+                <input class="input force-uppercase" type="text" name="bairro" placeholder="Bairro">
+            </div>
+            <div class="column is-3">
+                <label class="label">Cep</label>
+                <input class="input" type="text" name="cep" id="cep" maxlength="9" placeholder="00000-000">
+            </div>
+            <div class="column is-3">
+                <label class="label">Cidade</label>
+                <input class="input force-uppercase" type="text" name="cidade" placeholder="Cidade">
+            </div>
+            <div class="column is-2">
+                <label class="label">Estado</label>
+                <input class="input force-uppercase" type="text" name="estado" id="uf_atual" maxlength="2" placeholder="Ex: RN">
+            </div>
+
+            <div class="column is-12">
+                <label class="label">Telefone / Whatsapp</label>
+                <div class="control has-icons-left">
+                    <input class="input" type="text" name="telefone" id="tel" placeholder="(00) 00000-0000" required>
+                    <span class="icon is-small is-left"><i class="fab fa-whatsapp"></i></span>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="column is-6">
+                <label class="label">Congregação</label>
+                <div class="select is-fullwidth">
+                    <select name="congregacao" required>
+                        <option value="">Selecione...</option>
+                        <option value="ADPAZ - SEDE">ADpaz - Sede</option>
+                        <option value="ADPAZ - ZONA SUL">ADpaz - Zona Sul</option> 
+                        </select>
+                </div>
+            </div>
+            <div class="column is-3">
+                <label class="label">Cargo Indicado</label>
+                <div class="select is-fullwidth">
+                    <select name="consagracao">
+                        <option value="">Selecione...</option>
+                        <option value="DIÁCONO/DIACONISA">Diácono/Diaconisa</option>
+                        <option value="PASTOR">Pastor</option>
+                        <option value="PRESBÍTERO">Presbítero</option>
+                    </select>
+                </div>
+            </div>
+            <div class="column is-3">
+                <label class="label">Critério da Indicação</label>
+                <div class="select is-fullwidth">
+                    <select name="separacao">
+                        <option value="">Selecione...</option>
+                        <option value="CONSAGRAÇÃO">Consagração</option>
+                        <option value="RECONHECIMENTO">Reconhecimento</option>
+                    </select>
+                </div>
+            </div>
+            <div class="column is-12">
+                <label class="label">Dirigente da congregação</label>
+                <input class="input force-uppercase" type="text" name="dircongregacao" placeholder="Nome do dirigente">
+            </div>
+        </div>
 
         <div class="mt-6">
             <button type="submit" id="btnSalvar" class="button is-link is-fullwidth btn-enviar">
@@ -90,7 +206,7 @@
 </div>
 
 <script>
-    // REGISTRO DO SERVICE WORKER (PARA INSTALAÇÃO)
+    // 1. REGISTRO DO SERVICE WORKER (PARA INSTALAÇÃO)
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('sw.js')
@@ -99,10 +215,94 @@
         });
     }
 
-    // O RESTO DO SEU SCRIPT ORIGINAL CONTINUA ABAIXO...
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx9BkrkkpysXbKKWXS6wR_JknEdeYvIxO_gtAkOMebddMpDtzLPmTBdPqom7SnmahLE/exec";
 
-    // ... lógica de máscara, validação e envio (IGUAL AO SEU ORIGINAL) ...
+    // LÓGICA PARA MOSTRAR/ESCONDER CÔNJUGE
+    document.getElementById('estado_civil').addEventListener('change', function() {
+        const colunaConjuge = document.getElementById('coluna-conjuge');
+        const inputConjuge = document.getElementById('input_conjuge');
+        if (this.value === 'CASADO(A)' || this.value === 'UNIÃO ESTÁVEL') {
+            colunaConjuge.style.display = 'block';
+            inputConjuge.required = true;
+        } else {
+            colunaConjuge.style.display = 'none';
+            inputConjuge.value = '';
+            inputConjuge.required = false;
+        }
+    });
+
+    // MÁSCARAS E VALIDAÇÕES
+    function validarData(valor) {
+        if (!valor || valor.length < 10) return false;
+        const partes = valor.split('/');
+        const dia = parseInt(partes[0], 10);
+        const mes = parseInt(partes[1], 10);
+        const ano = parseInt(partes[2], 10);
+        if (mes < 1 || mes > 12) return "Mês inválido!";
+        if (ano < 1900 || ano > 2050) return "Ano inválido!";
+        const diasNoMes = new Date(ano, mes, 0).getDate();
+        if (dia < 1 || dia > diasNoMes) return `Dia inválido!`;
+        return true;
+    }
+
+    function dataParaAAMMDD(valorData) {
+        const partes = valorData.split('/');
+        return partes[2].substring(2) + partes[1] + partes[0];
+    }
+
+    document.getElementById('data_nasc').addEventListener('input', e => {
+        let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,2})(\d{0,4})/);
+        e.target.value = !x[2] ? x[1] : x[1] + '/' + x[2] + (x[3] ? '/' + x[3] : '');
+    });
+
+    document.getElementById('tel').addEventListener('input', e => {
+        let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+        e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+    });
+
+    document.getElementById('cep').addEventListener('input', e => {
+        let x = e.target.value.replace(/\D/g, '').match(/(\d{0,5})(\d{0,3})/);
+        e.target.value = !x[2] ? x[1] : x[1] + '-' + x[2];
+    });
+
+    // ENVIO DO FORMULÁRIO
+    document.getElementById('cadastroForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const campoData = document.getElementById('data_nasc').value;
+        const resultadoValidacao = validarData(campoData);
+
+        if (resultadoValidacao !== true) {
+            Swal.fire({ title: 'DATA INVÁLIDA', text: resultadoValidacao, icon: 'error' });
+            return;
+        }
+
+        const btn = document.getElementById('btnSalvar');
+        btn.classList.add('is-loading');
+        btn.disabled = true;
+
+        const hoje = new Date();
+        const strHoje = hoje.getFullYear().toString().substring(2) + ("0" + (hoje.getMonth() + 1)).slice(-2) + ("0" + hoje.getDate()).slice(-2);
+        const strNasc = dataParaAAMMDD(campoData);
+        const registroFinal = strHoje + strNasc;
+        document.getElementById('campo_registro').value = registroFinal;
+
+        const formData = new FormData(this);
+        const params = new URLSearchParams();
+        for (const pair of formData.entries()) {
+            params.append(pair[0], pair[1].toString().toUpperCase());
+        }
+
+        fetch(`${SCRIPT_URL}?${params.toString()}`, { method: 'POST', mode: 'no-cors' })
+        .then(() => {
+            Swal.fire({ title: 'CADASTRO ENVIADO!', html: `Registro: <b>${registroFinal}</b>`, icon: 'success' });
+            this.reset();
+            document.getElementById('coluna-conjuge').style.display = 'none';
+        })
+        .finally(() => {
+            btn.classList.remove('is-loading');
+            btn.disabled = false;
+        });
+    });
 </script>
 
 </body>
